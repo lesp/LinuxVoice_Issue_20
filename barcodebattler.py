@@ -9,6 +9,8 @@ import time
 
 #Variable
 global player
+global HP
+global MP
 global enemyHP
 global enemyMP
 global enemy_name
@@ -33,36 +35,38 @@ def scanner():
 
 #Choose player, this is handled via QR codes on cards.
 def player():
-	global code
-	global player
-	if code == "Andrew":
-		print("Andrew is your warrior")
-		HP = random.randint(0,100)
-		MP = random.randint(0,50)
-		player = "Andrew"
-		print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
-	elif code == "Ben":
-		print("Ben is your warrior")
-		HP = random.randint(0,100)
-		MP = random.randint(0,50)
-		player = "Ben"
-		print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
-	elif code == "Graham":
-		print("Graham is your warrior")
-		HP = random.randint(0,100)
-		MP = random.randint(0,50)
-		player = "Graham"
-		print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
-	elif code == "Mike":
-		print("Mike is your warrior")
-		HP = random.randint(0,100)
-		MP = random.randint(0,50)
-		player = "Mike"
-		print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+        global code
+        global player
+        global HP
+        global MP
+        if code == "Andrew":
+                print("Andrew is your warrior")
+                HP = random.randint(0,100)
+                MP = random.randint(0,50)
+                player = "Andrew"
+                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+        elif code == "Ben":
+                print("Ben is your warrior")
+                HP = random.randint(0,100)
+                MP = random.randint(0,50)
+                player = "Ben"
+                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+        elif code == "Graham":
+                print("Graham is your warrior")
+                HP = random.randint(0,100)
+                MP = random.randint(0,50)
+                player = "Graham"
+                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+        elif code == "Mike":
+                print("Mike is your warrior")
+                HP = random.randint(0,100)
+                MP = random.randint(0,50)
+                player = "Mike"
+                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
 
-	else:
-		print("Player not recognised, please scan one of the cards to continue")
-		
+        else:
+                print("Player not recognised, please scan one of the cards to continue")
+                
 
 
 #Generate an enemy.
@@ -105,7 +109,7 @@ def equip():
         scanner()
         print(code)
         value = int(code) / 1300000000000 / random.randint(0,10)
-        print(value)
+        #print(value)
         if value > 0 and value < 5:
                 print("You have a basic wooden shield")
                 equip = ("wood_shield")
@@ -119,6 +123,31 @@ def equip():
                 print("You have a mirrored shield that can reflect half damage to your attacker")
                 equip = ("mirror_shield")
 
+def player_attack():
+        global enemy_name
+        global enemyHP
+        global enemyMP
+        chance = ["attack","miss"]
+        chance = random.choice(chance)
+        print(chance)
+        if chance != "miss":
+                damage = enemyHP - (random.randint(0,10))
+                print("You cause "+str(damage)+" damage to "+(enemy_name)+" they now have "+str(enemyHP)+" HP")
+        else:
+                print("MISS")
+                
+def enemy_attack():
+        global player
+        global HP
+        global MP        
+        chance = ["attack","miss"]
+        chance = random.choice(chance)
+        print(chance)
+        if chance != "miss":
+                damage = HP - (random.randint(0,10))
+                print("Your enemy causes "+str(HP)+" damage to "+(player)+" they now have "+str(HP)+" HP")
+        else:
+                print("MISS")
 #T E S T I N G
 scanner()
 print(code)
@@ -128,14 +157,19 @@ time.sleep(5)
 weapon()
 time.sleep(5)
 equip()
-
-###BATTLE###
-
-#Like Final Fantasy we choose who goes first using random.choice
 combatants = ["warrior","enemy"]
 attacker = random.choice(combatants)
 print(attacker)
 
+if attacker == "warrior":
+        while HP != 0 or enemyHP != 0:
+                player_attack()
+                enemy_attack()
+else:
+        while HP != 0 or enemyHP != 0:
+                enemy_attack()  
+                player_attack()
+                              
 #For each attack a random number is used.
 #For enemy it is a random number with max value being MP
 #For player this is the MP + their weapon
