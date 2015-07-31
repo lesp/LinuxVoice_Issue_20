@@ -84,52 +84,40 @@ def weapon():
         global weapon
         scanner()
         print(code)
-        value = int(code) / 130000000000 / random.randint(0,10)
+        value = int(code) / 13000000000000 / random.randint(0,10)
         print(value)
         if value > 0 and value < 5:
                 print("You have a basic wooden sword")
+                weapon = ("wooden_sword")
         elif value > 5 and value < 11:
                 print("You have a steel sword")
+                weapon = ("steel_sword")
         elif value == 0:
                 print("You have no sword...you will have to use your fists of fury!")
+                weapon = ("fists")
         else:
                 print("You have an enchanted sword of mega power")
+                weapon = ("enchanted_sword")
 
 def equip():
         global code
         global equip
         scanner()
         print(code)
-        value = int(code) / 130000000000 / random.randint(0,10)
+        value = int(code) / 1300000000000 / random.randint(0,10)
         print(value)
         if value > 0 and value < 5:
                 print("You have a basic wooden shield")
+                equip = ("wood_shield")
         elif value > 5 and value < 11:
                 print("You have an iron shield")
+                equip = ("iron_shield")
         elif value == 0:
                 print("You have no shield...that sucks")
+                equip = ("nothing")
         else:
                 print("You have a mirrored shield that can reflect half damage to your attacker")
-
-#Scan barcode and do maths to give it a max strength.
-#Attacks are a random integer between the lowest and max strength.
-
-#Equip player with a magical item.
-#If value >0 and less than x give a wood shield
-#elif value > x and less than y give a magical shield
-#else give a super duper shield
-
-###BATTLE###
-
-#Like Final Fantasy we choose who goes first using random.choice
-
-#For each attack a random number is used.
-#For enemy it is a random number with max value being MP
-#For player this is the MP + their weapon
-
-#If the player HP == 0 then it's game over.
-#If the enemy HP == 0 then the player wins the game
-#Else we keep doing this until someone is dead.
+                equip = ("mirror_shield")
 
 #T E S T I N G
 scanner()
@@ -140,3 +128,18 @@ time.sleep(5)
 weapon()
 time.sleep(5)
 equip()
+
+###BATTLE###
+
+#Like Final Fantasy we choose who goes first using random.choice
+combatants = ["warrior","enemy"]
+attacker = random.choice(combatants)
+print(attacker)
+
+#For each attack a random number is used.
+#For enemy it is a random number with max value being MP
+#For player this is the MP + their weapon
+
+#If the player HP == 0 then it's game over.
+#If the enemy HP == 0 then the player wins the game
+#Else we keep doing this until someone is dead.
