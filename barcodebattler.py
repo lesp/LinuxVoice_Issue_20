@@ -135,9 +135,9 @@ def player_attack():
                 print("DAMAGE:",damage)
                 enemyHP = enemyHP - damage
                 print("You cause "+str(damage)+" damage to "+(enemy_name)+" they now have "+str(enemyHP)+" HP")
-        elif HP < 1:
-                print("YOU'RE DEAD")
-                return
+        #elif HP < 1:
+        #        print("YOU'RE DEAD")
+        #        return
         else:
                 print("Player misses the opponent")
         
@@ -155,15 +155,15 @@ def enemy_attack():
                 time.sleep(2)
                 HP = HP - damage
                 print("Your enemy causes "+str(damage)+" damage to "+(player)+" they now have "+str(HP)+" HP")
-        elif enemyHP < 1:
-                print("ENEMY DEAD")
-                return 
+        #elif enemyHP < 1:
+        #        print("ENEMY DEAD")
+        #        return 
         else:
                 print("Opponent misses the player")
 
 #T E S T I N G
 scanner()
-print(code)
+#print(code)
 player()
 enemy()
 time.sleep(5)
@@ -173,24 +173,19 @@ equip()
 combatants = ["warrior","enemy"]
 attacker = random.choice(combatants)
 print(attacker)
-while HP > 0 or enemyHP > 0:
+while True:
         if attacker == "warrior":
+                while (HP > 0) or (enemyHP > 0):
                         player_attack()
                         time.sleep(5)
                         enemy_attack()
+        elif attacker == "enemy":
+                while (HP > 0) or (enemyHP > 0):
+                        enemy_attack()
+                        time.sleep(5)
+                        player_attack()
         else:
-                while HP != 0 or enemyHP != 0:
-                        enemy_attack()
-                        time.sleep(5)
-                        player_attack()
-"""
-while HP != 0 or HP < 0 or enemyHP != 0 or enemyHP < 0:
+                break
 
-"""                              
-#For each attack a random number is used.
-#For enemy it is a random number with max value being MP
-#For player this is the MP + their weapon
+print("G A M E  O V E R")
 
-#If the player HP == 0 then it's game over.
-#If the enemy HP == 0 then the player wins the game
-#Else we keep doing this until someone is dead.
