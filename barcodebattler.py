@@ -2,21 +2,10 @@
 
 #Import modules
 from sys import argv
-import zbar
-import random
-import pygame
-import time
+import zbar, random, pygame, time
 
 #Variable
-global player
-global HP
-global MP
-global enemyHP
-global enemyMP
-global enemy_name
-global weapon
-global equip
-global code
+global player, HP,enemyHP, enemy_name, weapon, equip, code
 
 #Functions
 def scanner():
@@ -35,34 +24,27 @@ def scanner():
 
 #Choose player, this is handled via QR codes on cards.
 def player():
-        global code
-        global player
-        global HP
-        global MP
+        global code,player,HP
         if code == "Andrew":
                 print("Andrew is your warrior")
-                HP = random.randint(0,100)
-                MP = random.randint(0,50)
+                HP = random.randint(10,100)
                 player = "Andrew"
-                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+                print(player+" has "+str(HP)+" HP")
         elif code == "Ben":
                 print("Ben is your warrior")
-                HP = random.randint(0,100)
-                MP = random.randint(0,50)
+                HP = random.randint(10,100)
                 player = "Ben"
-                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+                print(player+" has "+str(HP)+" HP")
         elif code == "Graham":
                 print("Graham is your warrior")
-                HP = random.randint(0,100)
-                MP = random.randint(0,50)
+                HP = random.randint(10,100)
                 player = "Graham"
-                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+                print(player+" has "+str(HP)+" HP")
         elif code == "Mike":
                 print("Mike is your warrior")
-                HP = random.randint(0,100)
-                MP = random.randint(0,50)
+                HP = random.randint(10,100)
                 player = "Mike"
-                print(player+" has "+str(HP)+" HP and "+str(MP)+" MP")
+                print(player+" has "+str(HP)+" HP")
 
         else:
                 print("Player not recognised, please scan one of the cards to continue")
@@ -73,13 +55,11 @@ def player():
 def enemy():
         global enemy_name
         global enemyHP
-        global enemyMP
         enemy_names = ["Windows10","Killersaur","MegaDave","OpenSourcerer"]
         enemy_name = random.choice(enemy_names)
-        enemyHP = random.randint(0,100)
-        enemyMP = random.randint(0,50)
+        enemyHP = random.randint(10,100)
         print("Your enemy is "+enemy_name)
-        print("They have "+str(enemyHP)+" HP and "+str(enemyMP)+" MP")
+        print("They have "+str(enemyHP)+" HP")
               
 
 #Equip player with a weapon
@@ -126,7 +106,6 @@ def equip():
 def player_attack():
         global enemy_name
         global enemyHP
-        global enemyMP
         chance = ["attack","miss"]
         chance = random.choice(chance)
         #print(chance)
@@ -135,31 +114,33 @@ def player_attack():
                 print("DAMAGE:",damage)
                 enemyHP = enemyHP - damage
                 print("You cause "+str(damage)+" damage to "+(enemy_name)+" they now have "+str(enemyHP)+" HP")
-        #elif HP < 1:
-        #        print("YOU'RE DEAD")
-        #        return
+        elif HP < 1:
+                print("YOU'RE DEAD")
+                game_over()
+                
         else:
                 print("Player misses the opponent")
         
                 
 def enemy_attack():
         global player
-        global HP
-        global MP        
+        global HP      
         chance = ["attack","miss"]
         chance = random.choice(chance)
-        #print(chance)
         if chance != "miss":
                 damage = random.randint(0,10)
                 print("DAMAGE:",damage)
                 time.sleep(2)
                 HP = HP - damage
                 print("Your enemy causes "+str(damage)+" damage to "+(player)+" they now have "+str(HP)+" HP")
-        #elif enemyHP < 1:
-        #        print("ENEMY DEAD")
-        #        return 
+        elif enemyHP < 1:
+                print("ENEMY DEAD")
+                game_over()
         else:
                 print("Opponent misses the player")
+
+def game_over():
+        print("GAME OVER")
 
 #T E S T I N G
 scanner()
@@ -170,22 +151,18 @@ time.sleep(5)
 weapon()
 time.sleep(5)
 equip()
-combatants = ["warrior","enemy"]
-attacker = random.choice(combatants)
-print(attacker)
 while True:
-        if attacker == "warrior":
-                while (HP > 0) or (enemyHP > 0):
-                        player_attack()
-                        time.sleep(5)
-                        enemy_attack()
-        elif attacker == "enemy":
-                while (HP > 0) or (enemyHP > 0):
-                        enemy_attack()
-                        time.sleep(5)
-                        player_attack()
-        else:
+        if HP <= 0 or enemyHP <= 0:
+                print("G A M E  O V E R")
+                if HP < 1:
+                        print("Your enemy has won!")
+                else:
+                        print("You have vanquished your enemy")
                 break
-
-print("G A M E  O V E R")
-
+                #player_attack()
+                #time.sleep(1)
+                #enemy_attack()
+        else:
+                player_attack()
+                time.sleep(1)
+                enemy_attack()                
