@@ -46,6 +46,7 @@ def player():
         global code,player,HP
         if code == "Andrew":
                 print("Andrew is your warrior")
+                
                 HP = random.randint(10,100)
                 player = "Andrew"
                 print(player+" has "+str(HP)+" HP")
@@ -74,14 +75,23 @@ def player():
 def enemy():
         global enemy_name
         global enemyHP
-        enemy_names = ["Windows10","Killersaur","MegaDave","OpenSourcerer"]
+        enemy_names = ["Windows10","MegaDave","OpenSourcerer"]
         #enemy_name = random.choice(enemy_names)
-        enemy_name = "OpenSourcerer"
+        enemy_name = "Windows10"
         enemyHP = random.randint(10,100)
         print("Your enemy is "+enemy_name)
         if enemy_name == "OpenSourcerer":
+                audio("os.mp3")
                 picture("wizard-penguin.png",616,800)
-        print("They have "+str(enemyHP)+" HP")
+                print("They have "+str(enemyHP)+" HP")
+        elif enemy_name == "MegaDave":
+                audio("megadave.mp3")
+                picture("openmouthrobot.png",606,719)
+                print("They have "+str(enemyHP)+" HP")
+        elif enemy_name == "Windows10":
+                audio("win10.mp3")
+                picture("clippy.jpg",620,465)
+                print("They have "+str(enemyHP)+" HP")
               
 
 #Equip player with a weapon
@@ -162,6 +172,49 @@ def enemy_attack():
 def game_over():
         print("GAME OVER")
 
+def prepare():
+        red = 255
+        green = 255
+        blue = 255
+        pygame.font.init()
+        screen = pygame.display.set_mode( (800,600) )
+        for i in range(127):
+            red -= 2
+            green -= 2
+            blue -= 2
+            screen.fill( (red,green,blue) )
+            myfont = pygame.font.Font(None, 60)
+            info1 = myfont.render("PREPARE FOR BATTLE",1,(0,0,0))
+            screen.blit(info1, (150,300))
+            pygame.display.flip()
+            pygame.display.flip()
+            pygame.time.delay(32)
+    
+        pygame.display.quit()
+
+def warrior():
+        global player
+        red = 255
+        green = 255
+        blue = 255
+        pygame.font.init()
+        screen = pygame.display.set_mode( (800,600) )
+        for i in range(127):
+            red -= 2
+            green -= 2
+            blue -= 2
+            screen.fill( (red,green,blue) )
+            myfont = pygame.font.Font(None, 60)
+            info1 = myfont.render("Your warrior is "+(player),1,(0,0,0))
+            screen.blit(info1, (150,300))
+            pygame.display.flip()
+            pygame.display.flip()
+            pygame.time.delay(32)
+    
+        pygame.display.quit()
+
+
+
 #T E S T I N G
 
 audio("Marieva_s_Project_-_la_marche_des_infideles.mp3")
@@ -170,14 +223,15 @@ time.sleep(15)
 audio("choose.mp3")
 picture("choose.png",800,600)
 scanner()
-#print(code)
 player()
+warrior()
 enemy()
 time.sleep(5)
 weapon()
 time.sleep(5)
 equip()
 audio("battle.mp3")
+prepare()
 while True:
         if HP <= 0 or enemyHP <= 0:
                 print("G A M E  O V E R")
