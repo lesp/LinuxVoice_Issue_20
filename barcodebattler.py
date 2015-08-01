@@ -4,10 +4,29 @@
 from sys import argv
 import zbar, random, pygame, time
 
+#Pygame init
+pygame.init()
+pygame.mixer.init()
+
 #Variable
 global player, HP,enemyHP, enemy_name, weapon, equip, code
 
 #Functions
+def picture(img,w,h):
+    pic = pygame.image.load(img)
+    background = (0, 0, 0)
+    screen = pygame.display.set_mode((w,h))
+    screen.fill((background))
+    screen.blit(pic,(0,0))
+    pygame.display.flip()
+    time.sleep(3)
+    pygame.display.quit()
+
+def audio(music):
+    pygame.mixer.init()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play(1)
+
 def scanner():
     global code
     proc = zbar.Processor()
@@ -22,7 +41,7 @@ def scanner():
     for symbol in proc.results:
         code = symbol.data
 
-#Choose player, this is handled via QR codes on cards.
+#Choose player, this is handled via QR codes.
 def player():
         global code,player,HP
         if code == "Andrew":
@@ -56,9 +75,12 @@ def enemy():
         global enemy_name
         global enemyHP
         enemy_names = ["Windows10","Killersaur","MegaDave","OpenSourcerer"]
-        enemy_name = random.choice(enemy_names)
+        #enemy_name = random.choice(enemy_names)
+        enemy_name = "OpenSourcerer"
         enemyHP = random.randint(10,100)
         print("Your enemy is "+enemy_name)
+        if enemy_name == "OpenSourcerer":
+                picture("wizard-penguin.png",616,800)
         print("They have "+str(enemyHP)+" HP")
               
 
@@ -68,8 +90,7 @@ def weapon():
         global weapon
         scanner()
         print(code)
-        value = int(code) / 13000000000000 / random.randint(0,5)
-        print(value)
+        value = int(code) / 1300000000 / random.randint(0,10)
         if value > 0 and value < 5:
                 print("You have a basic wooden sword")
                 weapon = ("wooden_sword")
@@ -88,8 +109,7 @@ def equip():
         global equip
         scanner()
         print(code)
-        value = int(code) / 13000000000 / random.randint(0,5)
-        #print(value)
+        value = int(code) / 1300000000 / random.randint(0,10)
         if value > 0 and value < 5:
                 print("You have a basic wooden shield")
                 equip = ("wood_shield")
@@ -143,6 +163,12 @@ def game_over():
         print("GAME OVER")
 
 #T E S T I N G
+
+audio("Marieva_s_Project_-_la_marche_des_infideles.mp3")
+picture("masthead.gif",500,229)
+time.sleep(15)
+audio("choose.mp3")
+picture("choose.png",800,600)
 scanner()
 #print(code)
 player()
@@ -151,17 +177,18 @@ time.sleep(5)
 weapon()
 time.sleep(5)
 equip()
+audio("battle.mp3")
 while True:
         if HP <= 0 or enemyHP <= 0:
                 print("G A M E  O V E R")
                 if HP < 1:
                         print("Your enemy has won!")
+                        audio("defeat.mp3")
                 else:
                         print("You have vanquished your enemy")
+                        audio("enemy_vanquished.mp3")
                 break
-                #player_attack()
-                #time.sleep(1)
-                #enemy_attack()
+
         else:
                 player_attack()
                 time.sleep(1)
