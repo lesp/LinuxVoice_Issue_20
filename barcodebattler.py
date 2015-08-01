@@ -88,7 +88,7 @@ def weapon():
         global weapon
         scanner()
         print(code)
-        value = int(code) / 13000000000000 / random.randint(0,10)
+        value = int(code) / 13000000000000 / random.randint(0,5)
         print(value)
         if value > 0 and value < 5:
                 print("You have a basic wooden sword")
@@ -108,7 +108,7 @@ def equip():
         global equip
         scanner()
         print(code)
-        value = int(code) / 1300000000000 / random.randint(0,10)
+        value = int(code) / 13000000000 / random.randint(0,5)
         #print(value)
         if value > 0 and value < 5:
                 print("You have a basic wooden shield")
@@ -129,12 +129,18 @@ def player_attack():
         global enemyMP
         chance = ["attack","miss"]
         chance = random.choice(chance)
-        print(chance)
+        #print(chance)
         if chance != "miss":
-                damage = enemyHP - (random.randint(0,10))
+                damage = random.randint(0,10)
+                print("DAMAGE:",damage)
+                enemyHP = enemyHP - damage
                 print("You cause "+str(damage)+" damage to "+(enemy_name)+" they now have "+str(enemyHP)+" HP")
+        elif HP < 1:
+                print("YOU'RE DEAD")
+                return
         else:
-                print("MISS")
+                print("Player misses the opponent")
+        
                 
 def enemy_attack():
         global player
@@ -142,12 +148,19 @@ def enemy_attack():
         global MP        
         chance = ["attack","miss"]
         chance = random.choice(chance)
-        print(chance)
+        #print(chance)
         if chance != "miss":
-                damage = HP - (random.randint(0,10))
-                print("Your enemy causes "+str(HP)+" damage to "+(player)+" they now have "+str(HP)+" HP")
+                damage = random.randint(0,10)
+                print("DAMAGE:",damage)
+                time.sleep(2)
+                HP = HP - damage
+                print("Your enemy causes "+str(damage)+" damage to "+(player)+" they now have "+str(HP)+" HP")
+        elif enemyHP < 1:
+                print("ENEMY DEAD")
+                return 
         else:
-                print("MISS")
+                print("Opponent misses the player")
+
 #T E S T I N G
 scanner()
 print(code)
@@ -160,16 +173,20 @@ equip()
 combatants = ["warrior","enemy"]
 attacker = random.choice(combatants)
 print(attacker)
+while HP > 0 or enemyHP > 0:
+        if attacker == "warrior":
+                        player_attack()
+                        time.sleep(5)
+                        enemy_attack()
+        else:
+                while HP != 0 or enemyHP != 0:
+                        enemy_attack()
+                        time.sleep(5)
+                        player_attack()
+"""
+while HP != 0 or HP < 0 or enemyHP != 0 or enemyHP < 0:
 
-if attacker == "warrior":
-        while HP != 0 or enemyHP != 0:
-                player_attack()
-                enemy_attack()
-else:
-        while HP != 0 or enemyHP != 0:
-                enemy_attack()  
-                player_attack()
-                              
+"""                              
 #For each attack a random number is used.
 #For enemy it is a random number with max value being MP
 #For player this is the MP + their weapon
