@@ -76,8 +76,7 @@ def enemy():
         global enemy_name
         global enemyHP
         enemy_names = ["Windows10","MegaDave","OpenSourcerer"]
-        #enemy_name = random.choice(enemy_names)
-        enemy_name = "Windows10"
+        enemy_name = random.choice(enemy_names)
         enemyHP = random.randint(10,100)
         print("Your enemy is "+enemy_name)
         if enemy_name == "OpenSourcerer":
@@ -213,6 +212,22 @@ def warrior():
     
         pygame.display.quit()
 
+def battle_graphics():
+    global enemyHP, HP, player, enemy_name
+    pygame.font.init()
+    screen = pygame.display.set_mode( (800,600) )
+    screen.fill( (255,255,255) )
+    myfont = pygame.font.Font(None, 60)
+    #Add player name on line above
+    warriorpower = myfont.render(player+" has "+str(HP),1,(0,0,0))
+    #Add enemy name on another line
+    enemypower = myfont.render(enemy_name+(" has ")+str(enemyHP),1,(0,0,0))
+    screen.blit(warriorpower, (0,300))
+    screen.blit(enemypower, (450, 300))
+    pygame.display.flip()
+    pygame.time.delay(32)
+    time.sleep(2)
+    pygame.display.quit()
 
 
 #T E S T I N G
@@ -245,5 +260,7 @@ while True:
 
         else:
                 player_attack()
+                battle_graphics()
                 time.sleep(1)
-                enemy_attack()                
+                enemy_attack()
+                battle_graphics()
