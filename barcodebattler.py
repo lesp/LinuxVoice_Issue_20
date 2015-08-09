@@ -45,8 +45,7 @@ def scanner():
 def player():
         global code,player,HP
         if code == "Andrew":
-                print("Andrew is your warrior")
-                
+                print("Andrew is your warrior")        
                 HP = random.randint(10,100)
                 player = "Andrew"
                 print(player+" has "+str(HP)+" HP")
@@ -65,11 +64,8 @@ def player():
                 HP = random.randint(10,100)
                 player = "Mike"
                 print(player+" has "+str(HP)+" HP")
-
         else:
                 print("Player not recognised, please scan one of the cards to continue")
-                
-
 
 #Generate an enemy.
 def enemy():
@@ -99,45 +95,60 @@ def weapon():
         global weapon
         scanner()
         print(code)
-        value = int(code) / 1300000000 / random.randint(0,10)
-        if value > 0 and value < 5:
+        value = int(code) / 13000000000 / random.randint(1,10)
+        if value > 0 and value < 39:
                 print("You have a basic wooden sword")
                 weapon = ("wooden_sword")
-        elif value > 5 and value < 11:
+                audio("wood_sword.mp3")
+                picture("bokken.png",800,354)
+        elif value > 39 and value < 56:
                 print("You have a steel sword")
                 weapon = ("steel_sword")
-        elif value == 0:
+                audio("steel_sword.mp3")
+                picture("nello-sword.png",800,771)
+        elif value > 56 and value < 400:
                 print("You have no sword...you will have to use your fists of fury!")
                 weapon = ("fists")
+                audio("fists_of_fury.mp3")
+                picture("fist-265.png",539,800)
         else:
                 print("You have an enchanted sword of mega power")
                 weapon = ("enchanted_sword")
+                audio("mega_sword.mp3")
+                picture("lilking-Jeweled-Sword.png",800,556)
 
 def equip():
         global code
         global equip
         scanner()
         print(code)
-        value = int(code) / 1300000000 / random.randint(0,10)
-        if value > 0 and value < 5:
+        value = int(code) / 13000000000 / random.randint(1,10)
+        if value > 0 and value < 39:
                 print("You have a basic wooden shield")
                 equip = ("wood_shield")
-        elif value > 5 and value < 11:
+                audio("wood_shield.mp3")
+                picture("Shield-ClassicViking.png",800,800)
+        elif value > 39 and value < 56:
                 print("You have an iron shield")
                 equip = ("iron_shield")
-        elif value == 0:
+                audio("iron_shield.mp3")
+                picture("Shield-ClassicMedieval.png",586,800)
+        elif value > 56 and value < 400:
                 print("You have no shield...that sucks")
                 equip = ("nothing")
+                audio("no_shield.mp3")
+                picture("fist-265.png",539,800)
         else:
-                print("You have a mirrored shield that can reflect half damage to your attacker")
+                print("You have a seriously powerful mirrored shield")
                 equip = ("mirror_shield")
+                audio("mirror_shield.mp3")
+                picture("Peileppe-Magic-Shield.png",791,800)
 
 def player_attack():
         global enemy_name
         global enemyHP
         chance = ["attack","miss"]
         chance = random.choice(chance)
-        #print(chance)
         if chance != "miss":
                 damage = random.randint(0,10)
                 print("DAMAGE:",damage)
@@ -219,11 +230,11 @@ def battle_graphics():
     screen.fill( (255,255,255) )
     myfont = pygame.font.Font(None, 60)
     #Add player name on line above
-    warriorpower = myfont.render(player+" has "+str(HP),1,(0,0,0))
+    warriorpower = myfont.render(player+" has "+str(HP)+"HP",1,(0,0,0))
     #Add enemy name on another line
-    enemypower = myfont.render(enemy_name+(" has ")+str(enemyHP),1,(0,0,0))
-    screen.blit(warriorpower, (0,300))
-    screen.blit(enemypower, (450, 300))
+    enemypower = myfont.render(enemy_name+(" has ")+str(enemyHP)+"HP",1,(0,0,0))
+    screen.blit(warriorpower, (0,200))
+    screen.blit(enemypower, (0, 400))
     pygame.display.flip()
     pygame.time.delay(32)
     time.sleep(2)
@@ -259,6 +270,7 @@ while True:
                 break
 
         else:
+                audio("fight_music.mp3")
                 player_attack()
                 battle_graphics()
                 time.sleep(1)
