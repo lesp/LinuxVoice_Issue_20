@@ -175,12 +175,8 @@ def enemy_attack():
                 print("Your enemy causes "+str(damage)+" damage to "+(player)+" they now have "+str(HP)+" HP")
         elif enemyHP < 1:
                 print("ENEMY DEAD")
-                game_over()
         else:
                 print("Opponent misses the player")
-
-def game_over():
-        print("GAME OVER")
 
 def prepare():
         red = 255
@@ -197,9 +193,9 @@ def prepare():
             info1 = myfont.render("PREPARE FOR BATTLE",1,(0,0,0))
             screen.blit(info1, (150,300))
             pygame.display.flip()
-            pygame.display.flip()
+            #pygame.display.flip()
             pygame.time.delay(32)
-    
+
         pygame.display.quit()
 
 def warrior():
@@ -229,9 +225,7 @@ def battle_graphics():
     screen = pygame.display.set_mode( (800,600) )
     screen.fill( (255,255,255) )
     myfont = pygame.font.Font(None, 60)
-    #Add player name on line above
     warriorpower = myfont.render(player+" has "+str(HP)+"HP",1,(0,0,0))
-    #Add enemy name on another line
     enemypower = myfont.render(enemy_name+(" has ")+str(enemyHP)+"HP",1,(0,0,0))
     screen.blit(warriorpower, (0,200))
     screen.blit(enemypower, (0, 400))
